@@ -1,0 +1,17 @@
+{application, {{name}} , [
+    {description, "{{desc}}"},
+    {vsn, "{{version}}"},
+    {registered, []},
+    {mod, { {{name}} , []}},
+    {applications, [
+        kernel,
+        stdlib
+    ]},
+    {env, []},
+    {modules, []},
+    {maintainers, [
+        "{{author_name}} <{{author_email}}>"
+    ]},
+    {licenses, []},
+    {links, []}
+]}.

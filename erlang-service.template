@@ -1,0 +1,19 @@
+{description, "Erlang OTP Service"}.
+
+{variables, [
+    {name, "myapp", "Name of the service, an application with this name will also be created"},
+    {description, "A service that does something", "Short description of purpose of the service"},
+    {version, "1", "Initial version string"}
+]}.
+
+{template, "erlang-service-files/apps/app/src/app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
+{template, "erlang-service-files/apps/app/src/app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.erl"}.
+{template, "erlang-service-files/apps/app/src/sup.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sup.erl"}.
+{template, "erlang-service-files/config/sys.config", "{{name}}/config/sys.config"}.
+{template, "erlang-service-files/config/vm.args", "{{name}}/config/vm.args"}.
+{template, "erlang-service-files/doc/index.md", "{{name}}/doc/index.md"}.
+{template, "erlang-service-files/rebar.config", "{{name}}/rebar.config"}.
+{template, "erlang-service-files/Makefile", "{{name}}/Makefile"}.
+{template, "erlang-service-files/gitignore", "{{name}}/.gitignore"}.
+{template, "erlang-service-files/README.md", "{{name}}/README.md"}.
+{template, "erlang-service-files/wercker.yml", "{{name}}/wercker.yml"}.
