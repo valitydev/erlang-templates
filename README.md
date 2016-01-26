@@ -12,7 +12,7 @@
 ```bash
 $ mkdir -p ~/.config/rebar3/templates
 $ cd $_
-$ git clone https://bitbucket.org/rbk-money/erlang-service-template.git .
+$ git clone git@bitbucket.org:rbk-money/erlang-service-template.git .
 $ cd ~
 $ rebar3 new erlang-service name=snakeoil
 $ cd snakeoil
