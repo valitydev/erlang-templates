@@ -1,4 +1,4 @@
-# Erlang service template
+# Erlang service template [![wercker status](https://app.wercker.com/status/72b3d0cc27f1d63030839dbcb94f1212/s "wercker status")](https://app.wercker.com/project/bykey/72b3d0cc27f1d63030839dbcb94f1212)
 
 Шаблон проекта для быстрого старта написания сервиса на Erlang, в комплекте:
 
