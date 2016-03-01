@@ -15,7 +15,7 @@ start: devrel
 	_build/default/rel/${RELNAME}/bin/${RELNAME} console
 
 test:
-	$(REBAR) eunit
+	$(REBAR) ct
 
 clean:
 	$(REBAR) clean
