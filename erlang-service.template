@@ -8,7 +8,6 @@
 
 {template, "erlang-service-files/apps/app/src/app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
 {template, "erlang-service-files/apps/app/src/app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.erl"}.
-{template, "erlang-service-files/apps/app/src/sup.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sup.erl"}.
 {template, "erlang-service-files/config/sys.config", "{{name}}/config/sys.config"}.
 {template, "erlang-service-files/config/vm.args", "{{name}}/config/vm.args"}.
 {template, "erlang-service-files/doc/index.md", "{{name}}/doc/index.md"}.
