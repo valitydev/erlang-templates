@@ -8,6 +8,9 @@ all: compile
 compile:
 	$(REBAR) compile
 
+rebar-update:
+	$(REBAR) update
+
 devrel:
 	$(REBAR) release
 
@@ -15,7 +18,10 @@ start: devrel
 	_build/default/rel/${RELNAME}/bin/${RELNAME} console
 
 test:
-	$(REBAR) eunit
+	$(REBAR) ct
+
+xref:
+	$(REBAR) xref
 
 clean:
 	$(REBAR) clean
