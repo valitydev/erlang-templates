@@ -8,6 +8,9 @@ all: compile
 compile:
 	$(REBAR) compile
 
+rebar_update:
+	$(REBAR) update
+
 devrel:
 	$(REBAR) release
 
@@ -16,6 +19,9 @@ start: devrel
 
 test:
 	$(REBAR) ct
+
+xref:
+	$(REBAR) xref
 
 clean:
 	$(REBAR) clean
