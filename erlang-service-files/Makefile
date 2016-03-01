@@ -8,7 +8,7 @@ all: compile
 compile:
 	$(REBAR) compile
 
-rebar_update:
+rebar-update:
 	$(REBAR) update
 
 devrel:

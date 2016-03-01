@@ -9,7 +9,7 @@ build:
     steps:
       - script:
         name: rebar update
-        code: make rebar_update
+        code: make rebar-update
       - script:
         name: run xref
         code: make xref
