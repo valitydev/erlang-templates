@@ -15,7 +15,7 @@ devrel:
 	$(REBAR) release
 
 start: devrel
-	_build/default/rel/${RELNAME}/bin/${RELNAME} console
+	$(REBAR) run
 
 test:
 	$(REBAR) ct
