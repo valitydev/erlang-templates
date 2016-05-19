@@ -1,7 +1,7 @@
 REBAR := $(shell which rebar3 2>/dev/null || which ./rebar3)
 RELNAME = {{name}}
 
-.PHONY: all compile devrel start test clean distclean dialyze
+.PHONY: all compile devrel start test clean distclean dialyze lint
 
 all: compile
 
@@ -32,3 +32,6 @@ distclean:
 
 dialyze:
 	$(REBAR) dialyzer
+	
+lint:
+	elvis rock

@@ -6,6 +6,8 @@
  - release
  - wercker config
  - documentation stubs
+ - common test stub
+ - elvis ruleset
 
 Чтобы опробовать в деле, надо всего лишь:
 
@@ -18,6 +20,13 @@ $ rebar3 new erlang-service name=snakeoil
 $ cd snakeoil
 ...
 ```
+
+> _Хозяйке на заметку_. Для того, чтобы это всё заработало, необходимы следующие компоненты:
+>
+>  * GNU Make
+>  * [rebar3](http://www.rebar3.org/)
+>  * [elvis](https://github.com/inaka/elvis/releases)
+>  * [wercker cli](http://devcenter.wercker.com/cli/index.html)
 
 Чтобы получить описание и поддерживаемые переменные:
 

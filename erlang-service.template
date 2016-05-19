@@ -13,6 +13,7 @@
 {template, "erlang-service-files/config/vm.args", "{{name}}/config/vm.args"}.
 {template, "erlang-service-files/doc/index.md", "{{name}}/doc/index.md"}.
 {template, "erlang-service-files/rebar.config", "{{name}}/rebar.config"}.
+{template, "erlang-service-files/elvis.config", "{{name}}/elvis.config"}.
 {template, "erlang-service-files/rebar.config.script", "{{name}}/rebar.config.script"}.
 {template, "erlang-service-files/Makefile", "{{name}}/Makefile"}.
 {template, "erlang-service-files/gitignore", "{{name}}/.gitignore"}.
