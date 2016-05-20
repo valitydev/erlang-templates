@@ -32,6 +32,8 @@ stop() ->
 %%
 %% Supervisor callbacks
 %%
+-spec init([]) ->
+    {ok, {supervisor:sup_flags(), [supervisor:child_spec()]}}.
 init([]) ->
     {ok, {
         {one_for_all, 0, 1}, []

@@ -1,10 +1,19 @@
 -module({{name}}_tests_SUITE).
 -include_lib("common_test/include/ct.hrl").
--compile(export_all).
+
+-export([all           /0]).
+-export([init_per_suite/1]).
+-export([end_per_suite /1]).
+-export([dummy_test    /1]).
+
+-type test_name() :: atom().
+-type config() :: [{atom(), _}].
 
 %%
 %% tests descriptions
 %%
+-spec all() ->
+    [test_name()].
 all() ->
     [
         dummy_test
@@ -13,10 +22,14 @@ all() ->
 %%
 %% starting/stopping
 %%
+-spec init_per_suite(config()) ->
+    config().
 init_per_suite(C) ->
     {ok, Apps} = application:ensure_all_started({{name}}),
     [{apps, Apps}|C].
 
+-spec end_per_suite(config()) ->
+    any().
 end_per_suite(C) ->
     [application_stop(App) || App <- proplists:get_value(apps, C)].
 
@@ -33,5 +46,7 @@ application_stop(App) ->
 %%
 %% tests
 %%
+-spec dummy_test(config()) ->
+    any().
 dummy_test(_C) ->
     ok.

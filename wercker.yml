@@ -13,6 +13,21 @@ build:
         code: |
             cd snakeoil
             make start
+      - script:
+        name: xref it
+        code: |
+            cd snakeoil
+            make xref
+      - script:
+        name: dialyze it
+        code: |
+            cd snakeoil
+            make dialyze
+      - script:
+        name: test it
+        code: |
+            cd snakeoil
+            make test
     after-steps:
       - slack-notifier:
         url: ${SLACK_WEBHOOK_URL}
