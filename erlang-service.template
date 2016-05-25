@@ -19,3 +19,5 @@
 {template, "erlang-service-files/gitignore", "{{name}}/.gitignore"}.
 {template, "erlang-service-files/README.md", "{{name}}/README.md"}.
 {template, "erlang-service-files/wercker.yml", "{{name}}/wercker.yml"}.
+{template, "erlang-service-files/packer.json", "{{name}}/packer.json"}.
+
