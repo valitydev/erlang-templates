@@ -1,30 +1,57 @@
 REBAR := $(shell which rebar3 2>/dev/null || which ./rebar3)
-DOCKER := $(shell which docker 2>/dev/null)
-PACKER := $(shell which packer 2>/dev/null)
-RELNAME = {{name}}
+SUBMODULES = build_utils
+SUBTARGETS = $(patsubst %,%/.git,$(SUBMODULES))
 
-BASE_DIR := $(shell pwd)
+UTILS_PATH := build_utils/make_lib
+TEMPLATES_PATH := .
 
-.PHONY: all compile devrel start test clean distclean dialyze lint release containerize
+# Name of the service
+SERVICE_NAME := {{name}}
+# Service image default tag
+SERVICE_IMAGE_TAG ?= $(shell git rev-parse HEAD)
+# The tag for service image to be pushed with
+SERVICE_IMAGE_PUSH_TAG ?= $(SERVICE_IMAGE_TAG)
+
+# Base image for the service
+BASE_IMAGE_NAME := service_erlang
+BASE_IMAGE_TAG := $(BASE_IMAGE_TAG) # Replace with the current version (tag) for service_erlang image!
+
+BUILD_IMAGE_TAG := $(BUILD_IMAGE_TAG) # Replace with the current version (tag) for build image!
+
+CALL_ANYWHERE := all submodules rebar-update compile xref lint dialyze test start devrel release clean distclean
+
+# Hint: 'test' might be a candidate for CALL_W_CONTAINER-only target
+CALL_W_CONTAINER := $(CALL_ANYWHERE)
+
+.PHONY: $(CALL_W_CONTAINER)
 
 all: compile
 
-compile:
+-include $(UTILS_PATH)/utils_container.mk
+-include $(UTILS_PATH)/utils_image.mk
+
+$(SUBTARGETS): %/.git: %
+	git submodule update --init $<
+	touch $@
+
+submodules: $(SUBTARGETS)
+
+compile: submodules rebar-update
 	$(REBAR) compile
 
 rebar-update:
 	$(REBAR) update
 
-devrel:
+devrel: submodules
 	$(REBAR) release
 
 start: devrel
 	$(REBAR) run
 
-test:
+test: submodules
 	$(REBAR) ct
 
-xref:
+xref: submodules
 	$(REBAR) xref
 
 clean:
@@ -37,15 +64,9 @@ distclean:
 dialyze:
 	$(REBAR) dialyzer
 
-lint:
+release: distclean
+	$(REBAR) as prod release
+
+lint: compile
 	elvis rock
-
-release: $(DOCKER) ~/.docker/config.json distclean
-	$(DOCKER) run --rm -v $(BASE_DIR):$(BASE_DIR) --workdir $(BASE_DIR) rbkmoney/build_erlang rebar3 as prod release
-
-containerize: $(PACKER) release ./packer.json
-	$(PACKER) build packer.json
-
-~/.docker/config.json:
-	test -f ~/.docker/config.json || (echo "Please run: docker login" ; exit 1)
 

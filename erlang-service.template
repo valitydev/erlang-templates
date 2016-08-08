@@ -15,9 +15,12 @@
 {template, "erlang-service-files/rebar.config", "{{name}}/rebar.config"}.
 {template, "erlang-service-files/elvis.config", "{{name}}/elvis.config"}.
 {template, "erlang-service-files/rebar.config.script", "{{name}}/rebar.config.script"}.
-{template, "erlang-service-files/Makefile", "{{name}}/Makefile"}.
 {template, "erlang-service-files/gitignore", "{{name}}/.gitignore"}.
 {template, "erlang-service-files/README.md", "{{name}}/README.md"}.
-{template, "erlang-service-files/wercker.yml", "{{name}}/wercker.yml"}.
-{template, "erlang-service-files/packer.json", "{{name}}/packer.json"}.
+{template, "erlang-service-files/Makefile", "{{name}}/Makefile"}.
+{template, "erlang-service-files/Jenkinsfile", "{{name}}/Jenkinsfile"}.
+{template, "erlang-service-files/Dockerfile.sh", "{{name}}/Dockerfile.sh"}.
+{chmod, "{{name}}/Dockerfile.sh", 8#755}.
+{template, "erlang-service-files/docker-compose.sh", "{{name}}/docker-compose.sh"}.
+{chmod, "{{name}}/docker-compose.sh", 8#755}.
 

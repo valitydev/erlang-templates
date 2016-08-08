@@ -1,10 +1,13 @@
-# Erlang service template [![wercker status](https://app.wercker.com/status/72b3d0cc27f1d63030839dbcb94f1212/s "wercker status")](https://app.wercker.com/project/bykey/72b3d0cc27f1d63030839dbcb94f1212)
+# Erlang service template
+
 
 Шаблон проекта для быстрого старта написания сервиса на Erlang, в комплекте:
 
  - rebar.config
  - release
- - wercker config
+ - Jenkinsfile
+ - Dockerfile template
+ - docker-compose config template
  - documentation stubs
  - common test stub
  - elvis ruleset
@@ -18,7 +21,11 @@ $ git clone git@github.com:rbkmoney/erlang-service-template.git .
 $ cd ~
 $ rebar3 new erlang-service name=snakeoil
 $ cd snakeoil
+$ git init
+$ git submodule add -b master git@github.com:rbkmoney/build_utils.git build_utils
+$ git submodule init
 ...
++ установить значения переменных BASE_IMAGE_TAG и BUILD_IMAGE_TAG в Makefile
 ```
 
 > _Хозяйке на заметку_. Для того, чтобы это всё заработало, необходимы следующие компоненты:
@@ -27,6 +34,12 @@ $ cd snakeoil
 >  * [rebar3](http://www.rebar3.org/)
 >  * [elvis](https://github.com/inaka/elvis/releases)
 >  * [wercker cli](http://devcenter.wercker.com/cli/index.html)
+>
+> К счастью, теперь все это доступно в build образе, работать с которым легко и удобно через `make`:
+>  * wc_<target> - запустить в build контейнере
+>  * wdeps_<target> - запустить в build контейнере вместе с необходимыми зависимыми сервисами, используя `docker-compose`.
+>  * build_image - построить образ микросервиса
+>  * push_image - отправить образ микросервиса в docker registry
 
 Чтобы получить описание и поддерживаемые переменные:
 
