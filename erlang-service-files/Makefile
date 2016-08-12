@@ -2,7 +2,7 @@ REBAR := $(shell which rebar3 2>/dev/null || which ./rebar3)
 SUBMODULES = build_utils
 SUBTARGETS = $(patsubst %,%/.git,$(SUBMODULES))
 
-UTILS_PATH := build_utils/make_lib
+UTILS_PATH := build_utils
 TEMPLATES_PATH := .
 
 # Name of the service
@@ -25,10 +25,10 @@ CALL_W_CONTAINER := $(CALL_ANYWHERE)
 
 .PHONY: $(CALL_W_CONTAINER)
 
-all: compile
+all: submodules compile
 
--include $(UTILS_PATH)/utils_container.mk
--include $(UTILS_PATH)/utils_image.mk
+-include $(UTILS_PATH)/make_lib/utils_container.mk
+-include $(UTILS_PATH)/make_lib/utils_image.mk
 
 $(SUBTARGETS): %/.git: %
 	git submodule update --init $<
@@ -36,22 +36,22 @@ $(SUBTARGETS): %/.git: %
 
 submodules: $(SUBTARGETS)
 
-compile: submodules rebar-update
+compile: rebar-update
 	$(REBAR) compile
 
 rebar-update:
 	$(REBAR) update
 
-devrel: submodules
+devrel:
 	$(REBAR) release
 
 start: devrel
 	$(REBAR) run
 
-test: submodules
+test:
 	$(REBAR) ct
 
-xref: submodules
+xref:
 	$(REBAR) xref
 
 clean:

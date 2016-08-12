@@ -1,4 +1,4 @@
-UTILS_PATH := build_utils/make_lib
+UTILS_PATH := build_utils
 TEMPLATES_PATH := .
 
 SERVICE_NAME := service_erlang
@@ -8,11 +8,16 @@ SERVICE_IMAGE_PUSH_TAG ?= $(SERVICE_IMAGE_TAG)
 BASE_IMAGE_NAME := base
 BASE_IMAGE_TAG := 6de9b3bc9276ec00ec1d40fe1cfbc4b377faa622
 
+BUILD_IMAGE_TAG := 530114ab63a7ff0379a2220169a0be61d3f7c64c
+
+CALL_W_CONTAINER := all gen submodules clean
+
 all: gen
 
--include $(UTILS_PATH)/utils_image.mk
+-include $(UTILS_PATH)/make_lib/utils_container.mk
+-include $(UTILS_PATH)/make_lib/utils_image.mk
 
-.PHONY: all submodules add_template gen clean
+.PHONY: $(CALL_W_CONTAINER) add_template
 
 $(SUBTARGETS): %/.git: %
 	git submodule update --init $<
