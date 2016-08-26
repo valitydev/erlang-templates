@@ -22,12 +22,12 @@ build('erlang-service-template', 'docker-host', finalHook) {
         archive 'snakeoil/'
       }
 
-      // Update service_erlang image
+      runStage('build service_erlang image') {
+        sh "make build_image"
+      }
+
       if (env.BRANCH_NAME == 'master') {
-        runStage('build image') {
-          sh "make build_image"
-        }
-        runStage('push image') {
+        runStage('push service_erlang image') {
           sh "make push_image"
         }
       }
@@ -66,7 +66,9 @@ build('erlang-service-template', 'docker-host', finalHook) {
       def imageTags = "BASE_IMAGE_TAG=latest BUILD_IMAGE_TAG=530114ab63a7ff0379a2220169a0be61d3f7c64c"
 
       runStage('compile service') {
-        sh "make wc_compile ${imageTags}"
+        withGithubPrivkey {
+          sh "make wc_compile ${imageTags}"
+        }
       }
       runStage('lint service') {
         sh "make wc_lint ${imageTags}"
@@ -79,6 +81,11 @@ build('erlang-service-template', 'docker-host', finalHook) {
       }
       runStage('test service') {
         sh "make wdeps_test ${imageTags}"
+      }
+      runStage('release service') {
+        withGithubPrivkey {
+          sh "make wc_release ${imageTags}"
+        }
       }
     }
   }

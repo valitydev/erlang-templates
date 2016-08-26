@@ -3,5 +3,6 @@
 .tags*
 *.sublime-workspace
 .DS_Store
+snakeoil
 Dockerfile
 

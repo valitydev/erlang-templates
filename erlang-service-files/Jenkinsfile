@@ -17,11 +17,6 @@ build('{{name}}', 'docker-host', finalHook) {
   }
 
   pipeDefault() {
-    runStage('submodules') {
-      withGithubPrivkey {
-        sh 'make submodules'
-      }
-    }
     runStage('compile') {
       withGithubPrivkey {
         sh 'make wc_compile'
@@ -39,14 +34,16 @@ build('{{name}}', 'docker-host', finalHook) {
     runStage('test') {
       sh "make wdeps_test"
     }
-
-    if (env.BRANCH_NAME == 'master') {
-      runStage('make release') {
+    runStage('make release') {
+      withGithubPrivkey {
         sh "make wc_release"
       }
-      runStage('build image') {
-        sh "make build_image"
-      }
+    }
+    runStage('build image') {
+      sh "make build_image"
+    }
+
+    if (env.BRANCH_NAME == 'master') {
       runStage('push image') {
         sh "make push_image"
       }

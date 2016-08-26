@@ -6,8 +6,9 @@ SERVICE_IMAGE_TAG ?= $(shell git rev-parse HEAD)
 SERVICE_IMAGE_PUSH_TAG ?= $(SERVICE_IMAGE_TAG)
 
 BASE_IMAGE_NAME := base
-BASE_IMAGE_TAG := 6de9b3bc9276ec00ec1d40fe1cfbc4b377faa622
+BASE_IMAGE_TAG := 730ff18e1383e20e0c5f9d2c4a551c10f8f9b510
 
+#ToDo: Use the latest build image tag
 BUILD_IMAGE_TAG := 530114ab63a7ff0379a2220169a0be61d3f7c64c
 
 CALL_W_CONTAINER := all gen submodules clean

@@ -25,7 +25,7 @@ CALL_W_CONTAINER := $(CALL_ANYWHERE)
 
 .PHONY: $(CALL_W_CONTAINER)
 
-all: submodules compile
+all: compile
 
 -include $(UTILS_PATH)/make_lib/utils_container.mk
 -include $(UTILS_PATH)/make_lib/utils_image.mk
@@ -36,22 +36,22 @@ $(SUBTARGETS): %/.git: %
 
 submodules: $(SUBTARGETS)
 
-compile: rebar-update
+compile: submodules rebar-update
 	$(REBAR) compile
 
 rebar-update:
 	$(REBAR) update
 
-devrel:
+devrel: submodules
 	$(REBAR) release
 
 start: devrel
 	$(REBAR) run
 
-test:
+test: submodules
 	$(REBAR) ct
 
-xref:
+xref: submodules
 	$(REBAR) xref
 
 clean:
@@ -67,6 +67,6 @@ dialyze:
 release: distclean
 	$(REBAR) as prod release
 
-lint: compile
+lint:
 	elvis rock
 
