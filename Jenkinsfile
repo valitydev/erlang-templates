@@ -25,10 +25,15 @@ build('erlang-service-template', 'docker-host', finalHook) {
       runStage('build service_erlang image') {
         sh "make build_image"
       }
-
-      if (env.BRANCH_NAME == 'master') {
-        runStage('push service_erlang image') {
-          sh "make push_image"
+      try {
+        if (env.BRANCH_NAME == 'master') {
+          runStage('push service_erlang image') {
+            sh "make push_image"
+          }
+        }
+      } finally {
+        runStage('rm local image') {
+          sh 'make rm_local_image'
         }
       }
     } finally {
