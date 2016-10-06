@@ -1,4 +1,4 @@
-# Erlang service template
+# Erlang service template [![Build Status](http://ci.rbkmoney.com/buildStatus/icon?job=rbkmoney_private/erlang-service-template/master)](http://ci.rbkmoney.com/job/rbkmoney_private/view/Erlang/job/erlang-service-template/job/master/)
 
 
 Шаблон проекта для быстрого старта написания сервиса на Erlang, в комплекте:

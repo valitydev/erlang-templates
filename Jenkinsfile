@@ -14,27 +14,12 @@ build('erlang-service-template', 'docker-host', finalHook) {
       checkoutRepo()
       loadBuildUtils()
 
-      runStage('generate erlang service') {
+      runStage('generate erlang service: snakeoil') {
         sh 'make wc_gen'
       }
 
       runStage('archive snakeoil') {
         archive 'snakeoil/'
-      }
-
-      runStage('build service_erlang image') {
-        sh "make build_image"
-      }
-      try {
-        if (env.BRANCH_NAME == 'master') {
-          runStage('push service_erlang image') {
-            sh "make push_image"
-          }
-        }
-      } finally {
-        runStage('rm local image') {
-          sh 'make rm_local_image'
-        }
       }
     } finally {
       runStage('cleanup sub ws') {
