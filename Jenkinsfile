@@ -43,7 +43,9 @@ build('erlang-service-template', 'docker-host', finalHook) {
     }
 
     runStage('add git submodule') {
-      withGithubCredentials("submodule add -b master git@github.com:rbkmoney/build_utils.git build_utils")
+      withGithubSshCredentials {
+        sh "git submodule add -b master git@github.com:rbkmoney/build_utils.git build_utils"
+      }
     }
 
     def pipeDefault
@@ -53,7 +55,7 @@ build('erlang-service-template', 'docker-host', finalHook) {
     }
 
     pipeDefault() {
-      def imageTags = "BASE_IMAGE_TAG=latest BUILD_IMAGE_TAG=530114ab63a7ff0379a2220169a0be61d3f7c64c"
+      def imageTags = "BASE_IMAGE_TAG=4000337c0ca19978467f62ca6505a03c2569de40 BUILD_IMAGE_TAG=80c38dc638c0879687f6661f4e16e8de9fc0d2c6"
 
       runStage('compile service') {
         withGithubPrivkey {

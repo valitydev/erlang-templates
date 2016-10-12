@@ -4,7 +4,7 @@ TEMPLATES_PATH := .
 SERVICE_NAME := service_erlang
 
 #ToDo: Use the latest build image tag
-BUILD_IMAGE_TAG := 530114ab63a7ff0379a2220169a0be61d3f7c64c
+BUILD_IMAGE_TAG := 80c38dc638c0879687f6661f4e16e8de9fc0d2c6
 
 CALL_W_CONTAINER := all gen submodules clean
 

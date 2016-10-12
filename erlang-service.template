@@ -23,4 +23,5 @@
 {chmod, "{{name}}/Dockerfile.sh", 8#755}.
 {template, "erlang-service-files/docker-compose.sh", "{{name}}/docker-compose.sh"}.
 {chmod, "{{name}}/docker-compose.sh", 8#755}.
+{file, "erlang-service-files/containerpilot.json", "{{name}}/containerpilot.json"}.
 
