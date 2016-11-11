@@ -49,9 +49,11 @@ build('erlang-service-template', 'docker-host', finalHook) {
     }
 
     def pipeDefault
+    def withWsCache
     runStage('load service pipeline') {
       env.JENKINS_LIB = "build_utils/jenkins_lib"
       pipeDefault = load("${env.JENKINS_LIB}/pipeDefault.groovy")
+      withWsCache = load("${env.JENKINS_LIB}/withWsCache.groovy")
     }
 
     pipeDefault() {
@@ -69,7 +71,9 @@ build('erlang-service-template', 'docker-host', finalHook) {
         sh "make wc_xref ${imageTags}"
       }
       runStage('dialyze service') {
-        sh "make wc_dialyze ${imageTags}"
+        withWsCache("_build/default/rebar3_18.3_plt") {
+          sh "make wc_dialyze ${imageTags}"
+        }
       }
       runStage('test service') {
         sh "make wdeps_test ${imageTags}"
