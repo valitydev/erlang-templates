@@ -20,7 +20,7 @@ BASE_IMAGE_TAG := $(BASE_IMAGE_TAG) # Replace with the current version (tag) for
 BUILD_IMAGE_NAME := build-erlang
 BUILD_IMAGE_TAG := $(BUILD_IMAGE_TAG) # Replace with the current version (tag) for build image!
 
-CALL_ANYWHERE := all submodules rebar-update compile xref lint dialyze plt_update test \
+CALL_ANYWHERE := all submodules compile xref lint dialyze plt_update test \
 				release clean distclean format check_format
 
 # Hint: 'test' might be a candidate for CALL_W_CONTAINER-only target
@@ -39,7 +39,7 @@ $(SUBTARGETS): %/.git: %
 
 submodules: $(SUBTARGETS)
 
-compile: submodules rebar-update
+compile: submodules
 	$(REBAR) compile
 
 lint:
