@@ -1,10 +1,9 @@
 #!/bin/bash
 cat <<EOF
 FROM $BASE_IMAGE
-MAINTAINER Rybek Rbkyev <r.rbkyev@rbkmoney.com>
 COPY ./_build/prod/rel/{{name}} /opt/{{name}}
-COPY containerpilot.json /etc/containerpilot.json
-CMD /bin/containerpilot -config file:///etc/containerpilot.json /opt/{{name}}/bin/{{name}} foreground
+WORKDIR /opt/{{name}}
+CMD /opt/{{name}}/bin/{{name}} foreground
 EXPOSE 8022
 # A bit of magic below to get a proper branch name
 # even when the HEAD is detached (Hey Jenkins!
@@ -23,6 +22,7 @@ LABEL com.rbkmoney.$SERVICE_NAME.parent=$BASE_IMAGE_NAME \
         else \
           echo $(git name-rev --name-only HEAD); \
         fi)
+EOF
 WORKDIR /opt/{{name}}
 EOF
 

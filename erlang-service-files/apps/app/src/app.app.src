@@ -1,17 +1,15 @@
 {application, {{name}} , [
     {description, "{{description}}"},
     {vsn, "{{version}}"},
-    {registered, []},
     {mod, { {{name}} , []}},
     {applications, [
         kernel,
         stdlib
     ]},
     {env, []},
-    {modules, []},
     {maintainers, [
         "{{author_name}} <{{author_email}}>"
     ]},
-    {licenses, []},
+    {licenses, ["Apache 2.0"]},
     {links, []}
 ]}.

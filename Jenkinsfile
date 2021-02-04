@@ -57,7 +57,7 @@ build('erlang-service-template', 'docker-host', finalHook) {
     }
 
     pipeDefault() {
-      def imageTags = "BASE_IMAGE_TAG=4000337c0ca19978467f62ca6505a03c2569de40 BUILD_IMAGE_TAG=80c38dc638c0879687f6661f4e16e8de9fc0d2c6"
+      def imageTags = "BASE_IMAGE_TAG=51bd5f25d00cbf75616e2d672601dfe7351dcaa4 BUILD_IMAGE_TAG=61a001bbb48128895735a3ac35b0858484fdb2eb"
 
       runStage('compile service') {
         withGithubPrivkey {
@@ -71,7 +71,7 @@ build('erlang-service-template', 'docker-host', finalHook) {
         sh "make wc_xref ${imageTags}"
       }
       runStage('dialyze service') {
-        withWsCache("_build/default/rebar3_18.3_plt") {
+        withWsCache("_build/default/rebar3_23.2.3_plt") {
           sh "make wc_dialyze ${imageTags}"
         }
       }

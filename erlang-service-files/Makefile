@@ -16,9 +16,12 @@ SERVICE_IMAGE_PUSH_TAG ?= $(SERVICE_IMAGE_TAG)
 BASE_IMAGE_NAME := service_erlang
 BASE_IMAGE_TAG := $(BASE_IMAGE_TAG) # Replace with the current version (tag) for service_erlang image!
 
+# Build image tag to be used
+BUILD_IMAGE_NAME := build-erlang
 BUILD_IMAGE_TAG := $(BUILD_IMAGE_TAG) # Replace with the current version (tag) for build image!
 
-CALL_ANYWHERE := all submodules rebar-update compile xref lint dialyze test start devrel release clean distclean
+CALL_ANYWHERE := all submodules rebar-update compile xref lint dialyze plt_update test \
+				release clean distclean format check_format
 
 # Hint: 'test' might be a candidate for CALL_W_CONTAINER-only target
 CALL_W_CONTAINER := $(CALL_ANYWHERE)
@@ -39,17 +42,17 @@ submodules: $(SUBTARGETS)
 compile: submodules rebar-update
 	$(REBAR) compile
 
-rebar-update:
-	$(REBAR) update
+lint:
+	elvis rock
 
-devrel: submodules
-	$(REBAR) release
+check_format:
+	$(REBAR) fmt -c
 
-start: devrel
-	$(REBAR) run
+format:
+	$(REBAR) fmt -w
 
 test: submodules
-	$(REBAR) ct
+	$(REBAR) do eunit, ct
 
 xref: submodules
 	$(REBAR) xref
@@ -64,9 +67,9 @@ distclean:
 dialyze:
 	$(REBAR) dialyzer
 
-release: distclean
-	$(REBAR) as prod release
+plt_update:
+	$(REBAR) dialyzer -u true -s false
 
-lint:
-	elvis rock
+release: submodules
+	$(REBAR) as prod release
 

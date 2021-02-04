@@ -1,6 +1,3 @@
 -sname {{name}}
 
 -setcookie {{name}}_cookie
-
-+K true
-+A 10
