@@ -1,0 +1,14 @@
+{application, {{name}} , [
+    {description, "{{description}}"},
+    {vsn, "{{version}}"},
+    {applications, [
+        kernel,
+        stdlib
+    ]},
+    {env, []},
+    {maintainers, [
+        "{{author_name}} <{{author_email}}>"
+    ]},
+    {licenses, ["Apache 2.0"]},
+    {links, []}
+]}.

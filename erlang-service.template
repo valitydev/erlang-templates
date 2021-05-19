@@ -6,22 +6,37 @@
     {version, "1", "Initial version string"}
 ]}.
 
-{template, "erlang-service-files/apps/app/src/app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
-{template, "erlang-service-files/apps/app/src/app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.erl"}.
-{template, "erlang-service-files/apps/app/test/app_tests_SUITE.erl", "{{name}}/{{apps_dir}}/{{name}}/test/{{name}}_tests_SUITE.erl"}.
-{template, "erlang-service-files/config/sys.config", "{{name}}/config/sys.config"}.
-{template, "erlang-service-files/config/vm.args", "{{name}}/config/vm.args"}.
-{template, "erlang-service-files/doc/index.md", "{{name}}/doc/index.md"}.
-{template, "erlang-service-files/rebar.config", "{{name}}/rebar.config"}.
-{template, "erlang-service-files/elvis.config", "{{name}}/elvis.config"}.
-{template, "erlang-service-files/rebar.config.script", "{{name}}/rebar.config.script"}.
-{template, "erlang-service-files/gitignore", "{{name}}/.gitignore"}.
-{template, "erlang-service-files/README.md", "{{name}}/README.md"}.
-{template, "erlang-service-files/Makefile", "{{name}}/Makefile"}.
-{template, "erlang-service-files/Jenkinsfile", "{{name}}/Jenkinsfile"}.
-{template, "erlang-service-files/Dockerfile.sh", "{{name}}/Dockerfile.sh"}.
-{chmod, "{{name}}/Dockerfile.sh", 8#755}.
-{template, "erlang-service-files/docker-compose.sh", "{{name}}/docker-compose.sh"}.
-{chmod, "{{name}}/docker-compose.sh", 8#755}.
-{file, "erlang-service-files/LICENSE", "{{name}}/LICENSE"}.
+%% Project and plugins
+{template, "service-templates/rebar.config", "{{name}}/rebar.config"}.
+{template, "service-templates/elvis.config", "{{name}}/elvis.config"}.
 
+%% Code
+{template, "service-templates/apps/app/src/app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
+{template, "service-templates/apps/app/src/app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.erl"}.
+{template, "service-templates/apps/app/test/app_tests_SUITE.erl",
+    "{{name}}/{{apps_dir}}/{{name}}/test/{{name}}_tests_SUITE.erl"}.
+{template, "service-templates/config/sys.config", "{{name}}/config/sys.config"}.
+{template, "service-templates/config/vm.args", "{{name}}/config/vm.args"}.
+
+%% Build
+{template, "service-templates/Makefile", "{{name}}/Makefile"}.
+{template, "service-templates/Dockerfile.sh", "{{name}}/Dockerfile.sh"}.
+{chmod, "{{name}}/Dockerfile.sh", 8#755}.
+{template, "service-templates/docker-compose.sh", "{{name}}/docker-compose.sh"}.
+{chmod, "{{name}}/docker-compose.sh", 8#755}.
+
+%% VCS
+{template, "common-templates/gitignore", "{{name}}/.gitignore"}.
+
+%% Docs
+{template, "service-templates/README.md", "{{name}}/README.md"}.
+{template, "service-templates/doc/index.md", "{{name}}/doc/index.md"}.
+
+%% Tools
+{file, "common-templates/editorconfig", "{{name}}/.editorconfig"}.
+
+%% CI/CD
+{template, "service-templates/Jenkinsfile", "{{name}}/Jenkinsfile"}.
+
+%% Licenses
+{file, "common-templates/LICENSE", "{{name}}/LICENSE"}.

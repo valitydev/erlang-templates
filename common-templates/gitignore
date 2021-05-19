@@ -1,0 +1,13 @@
+# Build artifacts
+/_build/
+*.o
+*.beam
+*.plt
+
+# Run artifacts
+erl_crash.dump
+log
+
+# Files generated from scripts
+Dockerfile
+docker-compose.yml

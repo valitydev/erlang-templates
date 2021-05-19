@@ -21,7 +21,7 @@ BUILD_IMAGE_NAME := build-erlang
 BUILD_IMAGE_TAG := $(BUILD_IMAGE_TAG) # Replace with the current version (tag) for build image!
 
 CALL_ANYWHERE := all submodules compile xref lint dialyze plt_update test \
-				release clean distclean format check_format
+				shell release clean distclean format check_format
 
 # Hint: 'test' might be a candidate for CALL_W_CONTAINER-only target
 CALL_W_CONTAINER := $(CALL_ANYWHERE)
@@ -42,8 +42,11 @@ submodules: $(SUBTARGETS)
 compile: submodules
 	$(REBAR) compile
 
+shell: submodules
+	$(REBAR) shell
+
 lint:
-	elvis rock
+	$(REBAR) lint
 
 check_format:
 	$(REBAR) fmt -c
@@ -62,7 +65,7 @@ clean:
 
 distclean:
 	$(REBAR) clean -a
-	rm -rfv _build _builds _cache _steps _temp
+	rm -rfv _build
 
 dialyze:
 	$(REBAR) dialyzer
@@ -72,4 +75,3 @@ plt_update:
 
 release: submodules
 	$(REBAR) as prod release
-

@@ -33,7 +33,6 @@ $ git submodule init
 >  * GNU Make
 >  * [rebar3](http://www.rebar3.org/)
 >  * [elvis](https://github.com/inaka/elvis/releases)
->  * [wercker cli](http://devcenter.wercker.com/cli/index.html)
 >
 > К счастью, теперь все это доступно в build образе, работать с которым легко и удобно через `make`:
 >  * wc_<target> - запустить в build контейнере
@@ -60,4 +59,4 @@ erlang-service:
         apps_dir="apps" (Directory where applications will be created if needed)
 ```
 
-В случае необходимости доработки в первую очередь обращайтесь к [официальной документации](http://www.rebar3.org/docs/using-templates).
+В случае необходимости доработки в первую очередь обращайтесь к [официальной документации](http://rebar3.org/docs/tutorials/templates/).
