@@ -34,7 +34,7 @@ application_stop(App = sasl) ->
     %% hack for preventing sasl deadlock
     %% http://erlang.org/pipermail/erlang-questions/2014-May/079012.html
     error_logger:delete_report_handler(cth_log_redirect),
-    application:stop(App),
+    ok = application:stop(App),
     error_logger:add_report_handler(cth_log_redirect),
     ok;
 application_stop(App) ->

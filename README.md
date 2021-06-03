@@ -17,12 +17,12 @@
 ```bash
 $ mkdir -p ~/.config/rebar3/templates
 $ cd $_
-$ git clone git@github.com:rbkmoney/erlang-service-template.git .
+$ git clone https://github.com/rbkmoney/erlang-templates.git .
 $ cd ~
 $ rebar3 new erlang-service name=snakeoil
 $ cd snakeoil
 $ git init
-$ git submodule add -b master git@github.com:rbkmoney/build_utils.git build_utils
+$ git submodule add -b master https://github.com/rbkmoney/build_utils.git build_utils
 $ git submodule init
 ...
 + установить значения переменных BASE_IMAGE_TAG и BUILD_IMAGE_TAG в Makefile
