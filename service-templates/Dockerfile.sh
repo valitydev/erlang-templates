@@ -23,6 +23,3 @@ LABEL com.rbkmoney.$SERVICE_NAME.parent=$BASE_IMAGE_NAME \
           echo $(git name-rev --name-only HEAD); \
         fi)
 EOF
-WORKDIR /opt/{{name}}
-EOF
-

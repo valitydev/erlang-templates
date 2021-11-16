@@ -1,7 +1,7 @@
 REBAR := $(shell which rebar3 2>/dev/null || which ./rebar3)
 
 CALL_ANYWHERE := all submodules compile xref lint dialyze test \
-shell clean distclean format check_format
+                 shell clean distclean format check_format
 
 # build_utils-only required part
 SUBMODULES = build_utils
@@ -41,7 +41,9 @@ shell: submodules
 	$(REBAR) shell
 
 lint:
-	$(REBAR) lint
+    # TODO: Fix to this as soon as prometheus_cowboy has plugins fixed
+    # $(REBAR) lint
+	elvis rock -V
 
 check_format:
 	$(REBAR) fmt -c

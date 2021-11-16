@@ -1,0 +1,3 @@
+service SampleService {
+    string SampleFunction ()
+}

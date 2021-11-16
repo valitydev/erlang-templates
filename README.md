@@ -60,3 +60,14 @@ erlang-service:
 ```
 
 В случае необходимости доработки в первую очередь обращайтесь к [официальной документации](http://rebar3.org/docs/tutorials/templates/).
+
+## Внесение изменений
+
+Из-за наличия в коде mustache-плейсхолдеров следующего вида ( <file:service-templates/apps/app/test/app_tests_SUITE.erl>):
+```erlang
+-module({{name}}_tests_SUITE).
+```
+
+Форматирование через  `erlfmt` становится нетривиальным.
+
+Для этого в `make format` сделана подмена на в большинстве случаев приемлимый для парсинга код через `find`, `xargs` и `sed` (`{{placeholder}}` -> `___placeholder___`) и должна работать для большинства случаев.

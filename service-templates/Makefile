@@ -13,15 +13,15 @@ SERVICE_IMAGE_TAG ?= $(shell git rev-parse HEAD)
 SERVICE_IMAGE_PUSH_TAG ?= $(SERVICE_IMAGE_TAG)
 
 # Base image for the service
-BASE_IMAGE_NAME := service_erlang
-BASE_IMAGE_TAG := $(BASE_IMAGE_TAG) # Replace with the current version (tag) for service_erlang image!
+BASE_IMAGE_NAME := service-erlang
+BASE_IMAGE_TAG := $(BASE_IMAGE_TAG) # Replace with the current version (tag) for service-erlang image!
 
 # Build image tag to be used
 BUILD_IMAGE_NAME := build-erlang
 BUILD_IMAGE_TAG := $(BUILD_IMAGE_TAG) # Replace with the current version (tag) for build image!
 
 CALL_ANYWHERE := all submodules compile xref lint dialyze test \
-				shell release clean distclean format check_format
+                 shell release clean distclean format check_format
 
 # Hint: 'test' might be a candidate for CALL_W_CONTAINER-only target
 CALL_W_CONTAINER := $(CALL_ANYWHERE)
@@ -46,7 +46,9 @@ shell: submodules
 	$(REBAR) shell
 
 lint:
-	$(REBAR) lint
+    # TODO: Fix to this as soon as prometheus_cowboy has plugins fixed
+    # $(REBAR) lint
+	elvis rock -V
 
 check_format:
 	$(REBAR) fmt -c

@@ -10,9 +10,21 @@
 {template, "service-templates/rebar.config", "{{name}}/rebar.config"}.
 {template, "service-templates/elvis.config", "{{name}}/elvis.config"}.
 
+%% Protocol
+{file, "service-templates/apps/app/proto/sample_service.thrift",
+    "{{name}}/{{apps_dir}}/{{name}}/proto/sample_service.thrift"}.
+
 %% Code
+{template, "service-templates/apps/app/src/app_proto.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_proto.erl"}.
+{template, "service-templates/apps/app/src/app_sample_service_handler.erl",
+    "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sample_service_handler.erl"}.
+{template, "service-templates/apps/app/src/app_woody_wrapper.erl",
+    "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_woody_wrapper.erl"}.
+
 {template, "service-templates/apps/app/src/app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
 {template, "service-templates/apps/app/src/app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.erl"}.
+{template, "service-templates/apps/app/test/observability_SUITE.erl",
+    "{{name}}/{{apps_dir}}/{{name}}/test/observability_SUITE.erl"}.
 {template, "service-templates/apps/app/test/app_tests_SUITE.erl",
     "{{name}}/{{apps_dir}}/{{name}}/test/{{name}}_tests_SUITE.erl"}.
 {template, "service-templates/config/sys.config", "{{name}}/config/sys.config"}.

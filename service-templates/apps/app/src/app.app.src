@@ -1,10 +1,26 @@
-{application, {{name}} , [
+{application, {{name}}, [
     {description, "{{description}}"},
     {vsn, "{{version}}"},
-    {mod, { {{name}} , []}},
+    {mod, {{{name}}, []}},
     {applications, [
         kernel,
-        stdlib
+        stdlib,
+
+        %% Utils
+        genlib,
+        scoper,
+
+        %% RPC
+        woody,
+        woody_user_identity,
+
+        %% Web Server
+        cowboy_draining_server,
+
+        %% Monitoring
+        erl_health,
+        prometheus,
+        prometheus_cowboy
     ]},
     {env, []},
     {maintainers, [
