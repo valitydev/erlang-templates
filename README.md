@@ -1,5 +1,4 @@
-# Erlang service template [![Build Status](http://ci.rbkmoney.com/buildStatus/icon?job=rbkmoney_private/erlang-service-template/master)](http://ci.rbkmoney.com/job/rbkmoney_private/view/Erlang/job/erlang-service-template/job/master/)
-
+# Erlang service template
 
 Шаблон проекта для быстрого старта написания сервиса на Erlang, в комплекте:
 
@@ -17,15 +16,10 @@
 ```bash
 $ mkdir -p ~/.config/rebar3/templates
 $ cd $_
-$ git clone https://github.com/rbkmoney/erlang-templates.git .
+$ git clone https://github.com/valitydev/erlang-templates.git .
 $ cd ~
 $ rebar3 new erlang-service name=snakeoil
 $ cd snakeoil
-$ git init
-$ git submodule add -b master https://github.com/rbkmoney/build_utils.git build_utils
-$ git submodule init
-...
-+ установить значения переменных BASE_IMAGE_TAG и BUILD_IMAGE_TAG в Makefile
 ```
 
 > _Хозяйке на заметку_. Для того, чтобы это всё заработало, необходимы следующие компоненты:

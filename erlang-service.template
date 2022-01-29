@@ -1,4 +1,4 @@
-{description, "Erlang OTP Service"}.
+{description, "Vality Erlang/OTP Service"}.
 
 {variables, [
     {name, "myapp", "Name of the service, an application with this name will also be created"},
@@ -14,41 +14,39 @@
 {file, "service-templates/apps/app/proto/sample_service.thrift",
     "{{name}}/{{apps_dir}}/{{name}}/proto/sample_service.thrift"}.
 
-%% Code
+%% App logic
 {template, "service-templates/apps/app/src/app_proto.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_proto.erl"}.
 {template, "service-templates/apps/app/src/app_sample_service_handler.erl",
     "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_sample_service_handler.erl"}.
 {template, "service-templates/apps/app/src/app_woody_wrapper.erl",
     "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_woody_wrapper.erl"}.
-
 {template, "service-templates/apps/app/src/app.app.src", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.app.src"}.
 {template, "service-templates/apps/app/src/app.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}.erl"}.
+
+%% App tests
 {template, "service-templates/apps/app/test/observability_SUITE.erl",
     "{{name}}/{{apps_dir}}/{{name}}/test/observability_SUITE.erl"}.
 {template, "service-templates/apps/app/test/app_tests_SUITE.erl",
     "{{name}}/{{apps_dir}}/{{name}}/test/{{name}}_tests_SUITE.erl"}.
+
+%% Config samples
 {template, "service-templates/config/sys.config", "{{name}}/config/sys.config"}.
 {template, "service-templates/config/vm.args", "{{name}}/config/vm.args"}.
 
 %% Build
-{template, "service-templates/Makefile", "{{name}}/Makefile"}.
-{template, "service-templates/Dockerfile.sh", "{{name}}/Dockerfile.sh"}.
-{chmod, "{{name}}/Dockerfile.sh", 8#755}.
-{template, "service-templates/docker-compose.sh", "{{name}}/docker-compose.sh"}.
-{chmod, "{{name}}/docker-compose.sh", 8#755}.
+%% @TODO
 
 %% VCS
 {template, "common-templates/gitignore", "{{name}}/.gitignore"}.
 
 %% Docs
-{template, "service-templates/README.md", "{{name}}/README.md"}.
-{template, "service-templates/doc/index.md", "{{name}}/doc/index.md"}.
+{template, "common-templates/README.md", "{{name}}/README.md"}.
 
 %% Tools
 {file, "common-templates/editorconfig", "{{name}}/.editorconfig"}.
 
 %% CI/CD
-{template, "service-templates/Jenkinsfile", "{{name}}/Jenkinsfile"}.
+%% @TODO
 
 %% Licenses
 {file, "common-templates/LICENSE", "{{name}}/LICENSE"}.
