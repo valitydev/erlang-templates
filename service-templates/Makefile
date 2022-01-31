@@ -66,7 +66,7 @@ rebar-shell:
 	$(REBAR) shell
 
 compile:
-	DEBUG=1 $(REBAR) compile
+	$(REBAR) compile
 
 xref:
 	$(REBAR) xref
@@ -93,7 +93,7 @@ cover:
 	$(REBAR) covertool generate
 
 format:
-	DEBUG=1 $(REBAR) fmt -w
+	$(REBAR) fmt -w
 
 clean:
 	$(REBAR) clean
