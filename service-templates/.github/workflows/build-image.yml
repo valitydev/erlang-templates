@@ -50,5 +50,5 @@ jobs:
           # GENERATOR_VERSION=${{ env.GENERATOR_VERSION }}
           build-args: |
             SERVICE_NAME=${{ env.SERVICE_NAME }}
-            ERLANG_VERSION=${{ env.ERLANG_VERSION }}
+            OTP_VERSION=${{ env.OTP_VERSION }}
             THRIFT_VERSION=${{ env.THRIFT_VERSION }}
