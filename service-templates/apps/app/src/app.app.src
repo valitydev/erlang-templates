@@ -9,6 +9,7 @@
         %% Utils
         genlib,
         scoper,
+        httpc,
 
         %% RPC
         woody,
