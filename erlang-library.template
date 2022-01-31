@@ -17,7 +17,7 @@
 {template, "library-templates/src/app.erl", "{{name}}/src/{{name}}.erl"}.
 
 %% Build
-{fole, "library-templates/.env", "{{name}}/.env"}.
+{file, "library-templates/.env", "{{name}}/.env"}.
 {file, "library-templates/Dockerfile.dev", "{{name}}/Dockerfile.dev"}.
 {file, "library-templates/Makefile", "{{name}}/Makefile"}.
 
