@@ -25,33 +25,22 @@ jobs:
         run: |
           rebar3 new erlang-library name=erlang_library
 
-      - name: Update environment variables
-        working-directory: erlang_library
-        run: grep -v '^#' .env >> $GITHUB_ENV
-
-      - name: Setup BEAM
-        uses: erlef/setup-beam@v1.10
-        with:
-          otp-version: ${{ env.OTP_VERSION }}
-          rebar3-version: ${{ env.REBAR_VERSION }}
-
       - name: Compile template output
         working-directory: erlang_library
-        run: make compile
+        run: make wc-compile
 
       - name: Check template output
         working-directory: erlang_library
         run: |
-          make check-format
-          make lint
-          make xref
-          make dialyze
+          make wc-check-format
+          make wc-lint
+          make wc-xref
+          make wc-dialyze
 
       - name: Test template output
         working-directory: erlang_library
         run: |
-          make test
-          make cover
+          make wc-test
 
   check-service-template:
     name: Service Template
@@ -69,30 +58,19 @@ jobs:
         run: |
           rebar3 new erlang-service name=erlang_service
 
-      - name: Update environment variables
-        working-directory: erlang_service
-        run: grep -v '^#' .env >> $GITHUB_ENV
-
-      - name: Setup BEAM
-        uses: erlef/setup-beam@v1.10
-        with:
-          otp-version: ${{ env.OTP_VERSION }}
-          rebar3-version: ${{ env.REBAR_VERSION }}
-
       - name: Compile template output
         working-directory: erlang_service
-        run: make compile
+        run: make wc-compile
 
       - name: Check template output
         working-directory: erlang_service
         run: |
-          make check-format
-          make lint
-          make xref
-          make dialyze
+          make wc-check-format
+          make wc-lint
+          make wc-xref
+          make wc-dialyze
 
       - name: Test template output
         working-directory: erlang_service
         run: |
-          make test
-          make cover
+          make wc-test
