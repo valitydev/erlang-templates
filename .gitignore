@@ -4,7 +4,6 @@
 *.sublime-workspace
 .DS_Store
 snakeoil
-Dockerfile
 _build
 
 # Rebar is only used for erlfmt: lock file has no meaning

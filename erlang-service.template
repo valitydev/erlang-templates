@@ -39,7 +39,7 @@
 %% Build
 {template, "service-templates/.env", "{{name}}/.env"}.
 {file, "service-templates/Dockerfile", "{{name}}/Dockerfile"}.
-{file, "service-templates/Dockerfile", "{{name}}/Dockerfile.dev"}.
+{file, "service-templates/Dockerfile.dev", "{{name}}/Dockerfile.dev"}.
 {file, "service-templates/docker-compose.yaml", "{{name}}/docker-compose.yaml"}.
 {file, "service-templates/Makefile", "{{name}}/Makefile"}.
 
