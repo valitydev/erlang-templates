@@ -66,7 +66,7 @@ rebar-shell:
 	$(REBAR) shell
 
 compile:
-	$(REBAR) compile
+	DEBUG=1 $(REBAR) compile
 
 xref:
 	$(REBAR) xref
