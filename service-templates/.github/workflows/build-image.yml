@@ -1,0 +1,54 @@
+name: Build Docker image
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'epic/**'
+  pull_request:
+    branches: [ '**' ]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#setting-an-environment-variable
+      - name: Update environment variables
+        run: grep -v '^#' .env >> $GITHUB_ENV
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1.12.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Construct tags / labels for an image
+        id: meta
+        uses: docker/metadata-action@v3.6.2
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository }}
+          tags: |
+            type=sha
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          push: ${{ github.event_name == 'push' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          ## @SETUP-THRIFT Delete the THRIFT_VERSION key in build-args if you dont need thrift
+          ## @SETUP-CODEGEN Add the following keys to build-args if you need swagger-codegen
+          # CODEGEN_VERSION=${{ env.CODEGEN_VERSION }}
+          # GENERATOR_VERSION=${{ env.GENERATOR_VERSION }}
+          build-args: |
+            SERVICE_NAME=${{ env.SERVICE_NAME }}
+            ERLANG_VERSION=${{ env.ERLANG_VERSION }}
+            THRIFT_VERSION=${{ env.THRIFT_VERSION }}

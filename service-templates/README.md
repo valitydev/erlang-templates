@@ -2,29 +2,48 @@
 
 {{description}}
 
-## Сборка
+## Building
 
-Для запуска процесса сборки достаточно выполнить просто:
+To build the project, run the following command:
 
-    make
+```bash
+$ make compile
+```
 
-Чтобы запустить полученную сборку в режиме разработки и получить стандартный [Erlang shell][2], нужно всего лишь:
+## Running
 
-    make start
+To enter the [Erlang shell][1] with the project running, run the following command:
 
-> _Хозяйке на заметку._ При этом используется стандартный Erlang релиз, собранный при помощи [relx][3] в режиме разработчика.
+```bash
+$ make rebar-shell
+```
 
-Рекомендуется вести разработку и сборку проекта в рамках локальной виртуальной среды, предоставляемой локальным Makefile и Make задачами `wc_`, предоставляемыми [`build_utils`][1], которые дублируют задачи местного Makefile, но выполняются в контейнере с необходимой средой ([при условии установки `build_utils`](https://github.com/rbkmoney/erlang-service-template/blob/master/README.md)). Настоятельно рекомендуется прогоны тестовых сценариев проводить только в этой среде.
+## Development environment
 
-    $ make wc_all
+### Run in a docker container
 
-> _Хозяйке на заметку._ В зависимости от вашего окружения и операционной системы вам может понадобиться [Docker Machine][4].
+You can run any of the tasks defined in the Makefile from inside of a docker container (defined in `Dockerfile.dev`) by prefixing the task name with `wc-`.
 
-## Документация
+#### Example
 
-Дальнейшую документацию можно почерпнуть, пройдясь по ссылкам в [соответствующем документе](doc/index.md).
+* This command will run the `compile` task in a docker container:
+```bash
+$ make wc-compile
+```
 
-[1]: https://github.com/rbkmoney/build_utils
-[2]: http://erlang.org/doc/man/shell.html
-[3]: https://github.com/erlware/relx
-[4]: https://docs.docker.com/machine/install-machine/
+### Run in a docker-compose environment
+
+Similarily, you can run any of the tasks defined in the Makefile from inside of a docker-compose environment (defined in `docker-compose.yaml`) by prefixing the task name with `wdeps-`.
+
+#### Example
+
+* This command will run the `test` task in a docker-compose environment:
+```bash
+$ make wdeps-test
+```
+
+## Documentation
+
+@TODO
+
+[1]: http://erlang.org/doc/man/shell.html

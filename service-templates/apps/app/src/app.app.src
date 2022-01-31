@@ -18,9 +18,7 @@
         cowboy_draining_server,
 
         %% Monitoring
-        erl_health,
-        prometheus,
-        prometheus_cowboy
+        erl_health
     ]},
     {env, []},
     {maintainers, [

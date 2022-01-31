@@ -26,13 +26,10 @@ $ cd snakeoil
 >
 >  * GNU Make
 >  * [rebar3](http://www.rebar3.org/)
->  * [elvis](https://github.com/inaka/elvis/releases)
 >
 > К счастью, теперь все это доступно в build образе, работать с которым легко и удобно через `make`:
->  * wc_<target> - запустить в build контейнере
->  * wdeps_<target> - запустить в build контейнере вместе с необходимыми зависимыми сервисами, используя `docker-compose`.
->  * build_image - построить образ микросервиса
->  * push_image - отправить образ микросервиса в docker registry
+>  * wc-<target> - запустить в build контейнере
+>  * wdeps-<target> - запустить в build контейнере вместе с необходимыми зависимыми сервисами, используя `docker-compose`.
 
 Чтобы получить описание и поддерживаемые переменные:
 

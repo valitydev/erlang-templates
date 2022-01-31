@@ -1,0 +1,51 @@
+name: Erlang CI Checks
+
+on:
+  pull_request:
+    branches: [ '**' ]
+
+jobs:
+  setup:
+    name: Load .env
+    runs-on: ubuntu-latest
+    outputs:
+      otp-version: ${{ steps.otp-version.outputs.version }}
+      rebar-version: ${{ steps.rebar-version.outputs.version }}
+      ## @SETUP-THRIFT Delete the following line if your service does not require thrift
+      thrift-version: ${{ steps.thrift-version.outputs.version }}
+      ## @SETUP-CODEGEN Uncomment if you need swagger-codegen
+      # codegen-version: ${{ steps.thrift-version.outputs.version }}
+      # generator-version: ${{ steps.thrift-version.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - run: grep -v '^#' .env >> $GITHUB_ENV
+      - id: otp-version
+        run: echo "::set-output name=version::$OTP_VERSION"
+      - id: rebar-version
+        run: echo "::set-output name=version::$REBAR_VERSION"
+      ## @SETUP-THRIFT Delete the following two lines if your service does not require thrift
+      - id: thrift-version
+        run: echo "::set-output name=version::$THRIFT_VERSION"
+      ## @SETUP-CODEGEN Uncomment if you need swagger-codegen
+      # - id: codegen-version
+      #   run: echo "::set-output name=version::$CODEGEN_VERSION"
+      # - id: generator-version
+      #   run: echo "::set-output name=version::$GENERATOR_VERSION"
+
+  run:
+    name: Run checks
+    needs: setup
+    uses: valitydev/erlang-workflows/.github/workflows/erlang-parallel-build.yml@v1.0.0
+    with:
+      otp-version: ${{ needs.setup.outputs.otp-version }}
+      rebar-version: ${{ needs.setup.outputs.rebar-version }}
+      ## @SETUP-THRIFT Delete the following two lines if your service does not require thrift
+      use-thrift: true
+      thrift-version: ${{ needs.setup.outputs.thrift-version }}
+      ## @SETUP-COMPOSE Uncomment if common-test for this service must be run inside a docker-compose environment
+      # run-ct-with-compose: true
+      ## @SETUP-CODEGEN Uncomment if you need swagger-codegen
+      # use-swagger-codegen: true
+      # swagger-codegen-version: ${{ needs.setup.outputs.codegen-version }}
+      # erlang-generator-version: ${{ needs.setup.outputs.generator-version }}
