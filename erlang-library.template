@@ -17,19 +17,23 @@
 {template, "library-templates/src/app.erl", "{{name}}/src/{{name}}.erl"}.
 
 %% Build
-%% @TODO
+{fole, "library-templates/.env", "{{name}}/.env"}.
+{file, "library-templates/Dockerfile.dev", "{{name}}/Dockerfile.dev"}.
+{file, "library-templates/Makefile", "{{name}}/Makefile"}.
 
 %% VCS setup
 {template, "common-templates/gitignore", "{{name}}/.gitignore"}.
 
 %% Docs
-{template, "common-templates/README.md", "{{name}}/README.md"}.
+{template, "library-templates/README.md", "{{name}}/README.md"}.
+{file, "library-templates/GETTING_STARTED.md", "{{name}}/GETTING_STARTED.md"}.
 
 %% Tools
 {file, "common-templates/editorconfig", "{{name}}/.editorconfig"}.
 
 %% CI/CD
-%% @TODO
+{file, "library-templates/.github/workflows/erlang-checks.yml", "{{name}}/.github/workflows/erlang-checks.yml"}.
+{file, "common-templates/codecov.yml", "{{name}}/.github/codecov.yml"}.
 
 %% Licenses
 {file, "common-templates/LICENSE", "{{name}}/LICENSE"}.

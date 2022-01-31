@@ -36,4 +36,4 @@
 
 - [ ] **Documentation**
 
-    Please write a couple of words about what your service does and how it does it in appropriate section of the `README.md`.
+    Please write a couple of words about what your project does and how it does it in appropriate section of the `README.md`.
