@@ -5,11 +5,11 @@
     {applications, [
         kernel,
         stdlib,
+        inets,
 
         %% Utils
         genlib,
         scoper,
-        httpc,
 
         %% RPC
         woody,
