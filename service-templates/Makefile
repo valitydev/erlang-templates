@@ -93,7 +93,7 @@ cover:
 	$(REBAR) covertool generate
 
 format:
-	$(REBAR) fmt -w
+	DEBUG=1 $(REBAR) fmt -w
 
 clean:
 	$(REBAR) clean
