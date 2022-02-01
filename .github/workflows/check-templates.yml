@@ -8,11 +8,6 @@ on:
   pull_request:
     branches: [ '**' ]
 
-env:
-  # Enable buildkit extensions in docker-compose
-  COMPOSE_DOCKER_CLI_BUILD: true
-  DOCKER_BUILDKIT: true
-
 jobs:
   check-library-template:
     name: Client Template
@@ -53,6 +48,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          install: true
 
       - name: Add templates to rebar
         run: |
