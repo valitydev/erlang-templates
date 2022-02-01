@@ -73,4 +73,4 @@ jobs:
       - name: Test template output
         working-directory: erlang_service
         run: |
-          make wc-test
+          make wdeps-test

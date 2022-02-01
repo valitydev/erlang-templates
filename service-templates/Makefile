@@ -10,27 +10,25 @@
 # (like `wc-dialyze`) are reproducible between local machine and CI runners.
 DOTENV := $(shell grep -v '^\#' .env)
 
+# Development images
+DEV_IMAGE_TAG = $(TEST_CONTAINER_NAME)-dev
+DEV_IMAGE_ID = $(file < .image.dev)
+
 DOCKER ?= docker
 DOCKERCOMPOSE ?= docker-compose
+# Enable buildkit extensions in compose
+DOCKERCOMPOSE_W_ENV = COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 DEV_IMAGE_TAG=$(DEV_IMAGE_TAG) $(DOCKERCOMPOSE)
 REBAR ?= rebar3
 TEST_CONTAINER_NAME ?= testrunner
 
 all: compile
-
-# Development images
-
-DEV_IMAGE_TAG = $(TEST_CONTAINER_NAME)-dev
-DEV_IMAGE_ID = $(file < .image.dev)
-
-# Enable buildkit extensions in compose
-DOCKER_COMPOSE_BUILD_ENV = COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1
 
 .PHONY: dev-image clean-dev-image wc-shell test
 
 dev-image: .image.dev
 
 .image.dev: Dockerfile.dev .env
-	env $(DOTENV) DEV_IMAGE_TAG=$(DEV_IMAGE_TAG) $(DOCKER_COMPOSE_BUILD_ENV) $(DOCKERCOMPOSE) build $(TEST_CONTAINER_NAME)
+	env $(DOTENV) $(DOCKERCOMPOSE_W_ENV) build $(TEST_CONTAINER_NAME)
 	$(DOCKER) image ls -q -f "reference=$(DEV_IMAGE_ID)" | head -n1 > $@
 
 clean-dev-image:
@@ -43,7 +41,7 @@ DOCKER_WC_OPTIONS := -v $(PWD):$(PWD) --workdir $(PWD)
 DOCKER_WC_EXTRA_OPTIONS ?= --rm
 DOCKER_RUN = $(DOCKER) run -t $(DOCKER_WC_OPTIONS) $(DOCKER_WC_EXTRA_OPTIONS)
 
-DOCKERCOMPOSE_RUN = DEV_IMAGE_TAG=$(DEV_IMAGE_TAG) $(DOCKERCOMPOSE) run --rm $(DOCKER_WC_OPTIONS)
+DOCKERCOMPOSE_RUN = $(DOCKERCOMPOSE_W_ENV) run --rm $(DOCKER_WC_OPTIONS)
 
 # Utility tasks
 
@@ -55,10 +53,14 @@ wc-%: dev-image
 
 #  TODO docker compose down doesn't work yet
 wdeps-shell: dev-image
-	$(DOCKERCOMPOSE_RUN) $(TEST_CONTAINER_NAME) su
+	$(DOCKERCOMPOSE_RUN) $(TEST_CONTAINER_NAME) su; \
+	$(DOCKERCOMPOSE_W_ENV) down
 
 wdeps-%: dev-image
-	$(DOCKERCOMPOSE_RUN) $(TEST_CONTAINER_NAME) make $*
+	$(DOCKERCOMPOSE_RUN) -T $(TEST_CONTAINER_NAME) make $*; \
+	res=$$?; \
+	$(DOCKERCOMPOSE_W_ENV) down; \
+	exit $$res
 
 # Rebar tasks
 
