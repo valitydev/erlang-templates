@@ -3,7 +3,7 @@
 {variables, [
     {name, "myapp", "Name of the service, an application with this name will also be created"},
     {description, "A service that does something", "Short description of purpose of the service"},
-    {version, "1", "Initial version string"}
+    {version, "0.0.1", "Initial version string"}
 ]}.
 
 %% Project and plugins
@@ -11,8 +11,12 @@
 {template, "service-templates/elvis.config", "{{name}}/elvis.config"}.
 
 %% Protocol
-{file, "service-templates/apps/app/proto/sample_service.thrift",
-    "{{name}}/{{apps_dir}}/{{name}}/proto/sample_service.thrift"}.
+{template, "service-templates/apps/app_proto/src/app_proto.app.src",
+    "{{name}}/{{apps_dir}}/{{name}}_proto/src/{{name}}_proto.app.src"}.
+{file, "service-templates/apps/app_proto/proto/sample_service.thrift",
+    "{{name}}/{{apps_dir}}/{{name}}_proto/proto/sample_service.thrift"}.
+{template, "service-templates/apps/app_proto/rebar.config",
+    "{{name}}/{{apps_dir}}/{{name}}_proto/rebar.config"}.
 
 %% App logic
 {template, "service-templates/apps/app/src/app_proto.erl", "{{name}}/{{apps_dir}}/{{name}}/src/{{name}}_proto.erl"}.

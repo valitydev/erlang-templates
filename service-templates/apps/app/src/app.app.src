@@ -10,6 +10,9 @@
         genlib,
         scoper,
 
+        %% Protocols
+        {{name}}_proto,
+
         %% RPC
         woody,
         woody_user_identity,
