@@ -8,6 +8,11 @@ on:
   pull_request:
     branches: [ '**' ]
 
+env:
+  # Enable buildkit extensions in docker-compose
+  COMPOSE_DOCKER_CLI_BUILD: true
+  DOCKER_BUILDKIT: true
+
 jobs:
   check-library-template:
     name: Client Template
@@ -75,9 +80,5 @@ jobs:
 
       - name: Test template output
         working-directory: erlang_service
-        env:
-          # Enable buildkit extensions in docker-compose
-          COMPOSE_DOCKER_CLI_BUILD: true
-          DOCKER_BUILDKIT: true
         run: |
           make wdeps-test
