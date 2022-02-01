@@ -1,6 +1,10 @@
 name: Erlang CI Checks
 
 on:
+  push:
+    branches:
+      - 'master'
+      - 'epic/**'
   pull_request:
     branches: [ '**' ]
 
