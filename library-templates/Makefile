@@ -26,7 +26,7 @@ DEV_IMAGE_ID = $(file < .image.dev)
 dev-image: .image.dev
 
 .image.dev: Dockerfile.dev .env
-	$(DOCKER) build . -f Dockerfile.dev --tag $(DEV_IMAGE_TAG) --build-arg OTP_VERSION=$(OTP_VERSION) --build-arg THRIFT_VERSION=$(THRIFT_VERSION)
+	$(DOCKER) build . -f Dockerfile.dev --tag $(DEV_IMAGE_TAG) --build-arg OTP_VERSION=$(OTP_VERSION)
 	$(DOCKER) image ls -q -f "reference=$(DEV_IMAGE_ID)" | head -n1 > $@
 
 clean-dev-image:
