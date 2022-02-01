@@ -33,6 +33,6 @@ $ make wc-compile
 
 ## Documentation
 
-@TODO
+@TODO Please write a couple of words about what your project does and how it does it.
 
 [1]: http://erlang.org/doc/man/shell.html

@@ -44,10 +44,6 @@ jobs:
           push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          ## @SETUP-THRIFT Delete the THRIFT_VERSION key in build-args if you dont need thrift
-          ## @SETUP-CODEGEN Add the following keys to build-args if you need swagger-codegen
-          # CODEGEN_VERSION=${{ env.CODEGEN_VERSION }}
-          # GENERATOR_VERSION=${{ env.GENERATOR_VERSION }}
           build-args: |
             SERVICE_NAME=${{ env.SERVICE_NAME }}
             OTP_VERSION=${{ env.OTP_VERSION }}

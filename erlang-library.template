@@ -26,7 +26,6 @@
 
 %% Docs
 {template, "library-templates/README.md", "{{name}}/README.md"}.
-{file, "library-templates/GETTING_STARTED.md", "{{name}}/GETTING_STARTED.md"}.
 
 %% Tools
 {file, "common-templates/editorconfig", "{{name}}/.editorconfig"}.

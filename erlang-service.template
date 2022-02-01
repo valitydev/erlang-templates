@@ -45,7 +45,6 @@
 
 %% Docs
 {template, "service-templates/README.md", "{{name}}/README.md"}.
-{file, "service-templates/GETTING_STARTED.md", "{{name}}/GETTING_STARTED.md"}.
 
 %% Tools
 {file, "common-templates/editorconfig", "{{name}}/.editorconfig"}.

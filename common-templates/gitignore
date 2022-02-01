@@ -1,5 +1,3 @@
-.DS_Store
-
 # Build artifacts
 /_build/
 *.o

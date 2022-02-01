@@ -8,11 +8,7 @@ services:
       context: .
       args:
         OTP_VERSION: $OTP_VERSION
-        ## @SETUP-THRIFT Delete the following line if your service does not require thrift
         THRIFT_VERSION: $THRIFT_VERSION
-        ## @SETUP-CODEGEN Uncomment if you need swagger-codegen
-        # CODEGEN_VERSION: $CODEGEN_VERSION
-        # GENERATOR_VERSION: $GENERATOR_VERSION
     volumes:
       - .:$PWD
     hostname: $SERVICE_NAME

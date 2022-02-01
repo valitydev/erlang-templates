@@ -11,8 +11,6 @@ jobs:
     outputs:
       otp-version: ${{ steps.otp-version.outputs.version }}
       rebar-version: ${{ steps.rebar-version.outputs.version }}
-      ## @SETUP-THRIFT Uncomment if you need thrift
-      # thrift-version: ${{ steps.thrift-version.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -21,9 +19,6 @@ jobs:
         run: echo "::set-output name=version::$OTP_VERSION"
       - id: rebar-version
         run: echo "::set-output name=version::$REBAR_VERSION"
-      ## @SETUP-THRIFT Uncomment if you need thrift
-      # - id: thrift-version
-      #   run: echo "::set-output name=version::$THRIFT_VERSION"
 
   run:
     name: Run checks
@@ -32,6 +27,3 @@ jobs:
     with:
       otp-version: ${{ needs.setup.outputs.otp-version }}
       rebar-version: ${{ needs.setup.outputs.rebar-version }}
-      ## @SETUP-THRIFT Uncomment if you need thrift
-      # use-thrift: true
-      # thrift-version: ${{ needs.setup.outputs.thrift-version }}
