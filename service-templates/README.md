@@ -22,7 +22,7 @@ $ make rebar-shell
 
 ### Run in a docker container
 
-You can run any of the tasks defined in the Makefile from inside of a docker container (defined in `Dockerfile.dev`) by prefixing the task name with `wc-`.
+You can run any of the tasks defined in the Makefile from inside of a docker container (defined in `Dockerfile.dev`) by prefixing the task name with `wc-`. To successfully build the dev container you need `Docker BuildKit` enabled. This can be accomplished by either installing [docker-buildx](https://docs.docker.com/buildx/working-with-buildx/) locally, or exporting the `DOCKER_BUILDKIT=1` environment variable.
 
 #### Example
 
@@ -33,7 +33,7 @@ $ make wc-compile
 
 ### Run in a docker-compose environment
 
-Similarily, you can run any of the tasks defined in the Makefile from inside of a docker-compose environment (defined in `docker-compose.yaml`) by prefixing the task name with `wdeps-`.
+Similarly, you can run any of the tasks defined in the Makefile from inside of a docker-compose environment (defined in `docker-compose.yaml`) by prefixing the task name with `wdeps-`. To successfully build the dev container you need `Docker BuildKit` enabled (see `Run in a docker container` section). It *may* also be necessary to export a `COMPOSE_DOCKER_CLI_BUILD=1` environment variable for `docker-compose` container builds to work properly.
 
 #### Example
 
