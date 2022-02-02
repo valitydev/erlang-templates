@@ -1,9 +1,9 @@
-{description, "Erlang OTP Library"}.
+{description, "Vality Erlang/OTP Library"}.
 
 {variables, [
     {name, "myapp", "Name of the library, an application with this name will also be created"},
     {description, "A library that does something", "Short description of purpose of the library"},
-    {version, "1", "Initial version string"}
+    {version, "0.0.1", "Initial version string"}
 ]}.
 
 %% Project and plugins
@@ -17,7 +17,9 @@
 {template, "library-templates/src/app.erl", "{{name}}/src/{{name}}.erl"}.
 
 %% Build
-{template, "library-templates/Makefile", "{{name}}/Makefile"}.
+{file, "library-templates/.env", "{{name}}/.env"}.
+{file, "library-templates/Dockerfile.dev", "{{name}}/Dockerfile.dev"}.
+{file, "library-templates/Makefile", "{{name}}/Makefile"}.
 
 %% VCS setup
 {template, "common-templates/gitignore", "{{name}}/.gitignore"}.
@@ -29,7 +31,8 @@
 {file, "common-templates/editorconfig", "{{name}}/.editorconfig"}.
 
 %% CI/CD
-{file, "library-templates/github/workflows/code-checks.yml", "{{name}}/.github/workflows/code-checks.yml"}.
+{file, "library-templates/.github/workflows/erlang-checks.yml", "{{name}}/.github/workflows/erlang-checks.yml"}.
+{file, "common-templates/codecov.yml", "{{name}}/.github/codecov.yml"}.
 
 %% Licenses
 {file, "common-templates/LICENSE", "{{name}}/LICENSE"}.

@@ -1,76 +1,108 @@
-REBAR := $(shell which rebar3 2>/dev/null || which ./rebar3)
-SUBMODULES = build_utils
-SUBTARGETS = $(patsubst %,%/.git,$(SUBMODULES))
+# HINT
+# Use this file to override variables here.
+# For example, to run with podman put `DOCKER=podman` there.
+-include Makefile.env
 
-UTILS_PATH := build_utils
-TEMPLATES_PATH := .
+# NOTE
+# Variables specified in `.env` file are used to pick and setup specific
+# component versions, both when building a development image and when running
+# CI workflows on GH Actions. This ensures that tasks run with `wc-` prefix
+# (like `wc-dialyze`) are reproducible between local machine and CI runners.
+DOTENV := $(shell grep -v '^\#' .env)
 
-# Name of the service
-SERVICE_NAME := {{name}}
-# Service image default tag
-SERVICE_IMAGE_TAG ?= $(shell git rev-parse HEAD)
-# The tag for service image to be pushed with
-SERVICE_IMAGE_PUSH_TAG ?= $(SERVICE_IMAGE_TAG)
+# Development images
+DEV_IMAGE_TAG = $(TEST_CONTAINER_NAME)-dev
+DEV_IMAGE_ID = $(file < .image.dev)
 
-# Base image for the service
-BASE_IMAGE_NAME := service-erlang
-BASE_IMAGE_TAG := $(BASE_IMAGE_TAG) # Replace with the current version (tag) for service-erlang image!
-
-# Build image tag to be used
-BUILD_IMAGE_NAME := build-erlang
-BUILD_IMAGE_TAG := $(BUILD_IMAGE_TAG) # Replace with the current version (tag) for build image!
-
-CALL_ANYWHERE := all submodules compile xref lint dialyze test \
-                 shell release clean distclean format check_format
-
-# Hint: 'test' might be a candidate for CALL_W_CONTAINER-only target
-CALL_W_CONTAINER := $(CALL_ANYWHERE)
-
-.PHONY: $(CALL_W_CONTAINER)
+DOCKER ?= docker
+DOCKERCOMPOSE ?= docker-compose
+DOCKERCOMPOSE_W_ENV = DEV_IMAGE_TAG=$(DEV_IMAGE_TAG) $(DOCKERCOMPOSE)
+REBAR ?= rebar3
+TEST_CONTAINER_NAME ?= testrunner
 
 all: compile
 
--include $(UTILS_PATH)/make_lib/utils_container.mk
--include $(UTILS_PATH)/make_lib/utils_image.mk
+.PHONY: dev-image clean-dev-image wc-shell test
 
-$(SUBTARGETS): %/.git: %
-	git submodule update --init $<
-	touch $@
+dev-image: .image.dev
 
-submodules: $(SUBTARGETS)
+.image.dev: Dockerfile.dev .env
+	env $(DOTENV) $(DOCKERCOMPOSE_W_ENV) build $(TEST_CONTAINER_NAME)
+	$(DOCKER) image ls -q -f "reference=$(DEV_IMAGE_ID)" | head -n1 > $@
 
-compile: submodules
-	$(REBAR) compile
+clean-dev-image:
+ifneq ($(DEV_IMAGE_ID),)
+	$(DOCKER) image rm -f $(DEV_IMAGE_TAG)
+	rm .image.dev
+endif
 
-shell: submodules
+DOCKER_WC_OPTIONS := -v $(PWD):$(PWD) --workdir $(PWD)
+DOCKER_WC_EXTRA_OPTIONS ?= --rm
+DOCKER_RUN = $(DOCKER) run -t $(DOCKER_WC_OPTIONS) $(DOCKER_WC_EXTRA_OPTIONS)
+
+DOCKERCOMPOSE_RUN = $(DOCKERCOMPOSE_W_ENV) run --rm $(DOCKER_WC_OPTIONS)
+
+# Utility tasks
+
+wc-shell: dev-image
+	$(DOCKER_RUN) --interactive --tty $(DEV_IMAGE_TAG)
+
+wc-%: dev-image
+	$(DOCKER_RUN) $(DEV_IMAGE_TAG) make $*
+
+#  TODO docker compose down doesn't work yet
+wdeps-shell: dev-image
+	$(DOCKERCOMPOSE_RUN) $(TEST_CONTAINER_NAME) su; \
+	$(DOCKERCOMPOSE_W_ENV) down
+
+wdeps-%: dev-image
+	$(DOCKERCOMPOSE_RUN) -T $(TEST_CONTAINER_NAME) make $*; \
+	res=$$?; \
+	$(DOCKERCOMPOSE_W_ENV) down; \
+	exit $$res
+
+# Rebar tasks
+
+rebar-shell:
 	$(REBAR) shell
 
-lint:
-    # TODO: Fix to this as soon as prometheus_cowboy has plugins fixed
-    # $(REBAR) lint
-	elvis rock -V
+compile:
+	$(REBAR) compile
 
-check_format:
-	$(REBAR) fmt -c
-
-format:
-	$(REBAR) fmt -w
-
-test: submodules
-	$(REBAR) do eunit, ct
-
-xref: submodules
+xref:
 	$(REBAR) xref
 
-clean:
-	$(REBAR) clean
+lint:
+	$(REBAR) lint
 
-distclean:
-	$(REBAR) clean -a
-	rm -rfv _build
+check-format:
+	$(REBAR) fmt -c
 
 dialyze:
 	$(REBAR) as test dialyzer
 
-release: submodules
+release:
 	$(REBAR) as prod release
+
+eunit:
+	$(REBAR) eunit --cover
+
+common-test:
+	$(REBAR) ct --cover
+
+cover:
+	$(REBAR) covertool generate
+
+format:
+	$(REBAR) fmt -w
+
+clean:
+	$(REBAR) clean
+
+distclean: clean-build-image
+	rm -rf _build
+
+test: eunit common-test
+
+cover-report:
+	$(REBAR) cover

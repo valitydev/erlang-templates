@@ -2,23 +2,43 @@
 
 {{description}}
 
-## Сборка
+## Building
 
-Для запуска процесса сборки достаточно выполнить просто:
+To build the project, run the following command:
 
-    make
-
-Чтобы запустить проект в режиме разработки и получить стандартный [Erlang shell][2], нужно всего лишь:
-
-    make shell
-
-## CI/CD
-Данная библиотека проходит автоматическую проверку с помощью Github Actions, которую можно также запустить локально с помощью [act](https://github.com/nektos/act):
+```bash
+$ make compile
 ```
-act
+
+## Running
+
+To enter the [Erlang shell][1] with the project running, run the following command:
+
+```bash
+$ make rebar-shell
 ```
-Рекомендуется вести разработку и сборку проекта в рамках локальной виртуальной среды, предоставляемой локальным Makefile и Make задачами `wc_`, предоставляемыми [`build_utils`][1], которые дублируют задачи местного Makefile, но выполняются в контейнере с необходимой средой ([при условии установки `build_utils`](https://github.com/rbkmoney/erlang-service-template/blob/master/README.md)). Настоятельно рекомендуется прогоны тестовых сценариев проводить только в этой среде.
 
-    $ make wc_all
+## Development environment
 
-> _Хозяйке на заметку._ В зависимости от вашего окружения и операционной системы вам может понадобиться [Docker Machine][4].
+### Run in a docker container
+
+You can run any of the tasks defined in the Makefile from inside of a docker container (defined in `Dockerfile.dev`) by prefixing the task name with `wc-`. To successfully build the dev container you need `Docker BuildKit` enabled. This can be accomplished by either installing [docker-buildx](https://docs.docker.com/buildx/working-with-buildx/) locally, or exporting the `DOCKER_BUILDKIT=1` environment variable.
+
+#### Example
+
+* This command will run the `compile` task in a docker container:
+```bash
+$ make wc-compile
+```
+#### Example
+
+* This command will run the `compile` task in a docker container:
+```bash
+$ make wc-compile
+```
+
+## Documentation
+
+@TODO Please write a couple of words about what your project does and how it does it.
+
+[1]: http://erlang.org/doc/man/shell.html

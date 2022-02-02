@@ -1,68 +1,94 @@
-REBAR := $(shell which rebar3 2>/dev/null || which ./rebar3)
+# HINT
+# Use this file to override variables here.
+# For example, to run with podman put `DOCKER=podman` there.
+-include Makefile.env
 
-CALL_ANYWHERE := all submodules compile xref lint dialyze test \
-                 shell clean distclean format check_format
+# NOTE
+# Variables specified in `.env` file are used to pick and setup specific
+# component versions, both when building a development image and when running
+# CI workflows on GH Actions. This ensures that tasks run with `wc-` prefix
+# (like `wc-dialyze`) are reproducible between local machine and CI runners.
+-include .env
 
-# build_utils-only required part
-SUBMODULES = build_utils
-SUBTARGETS = $(patsubst %,%/.git,$(SUBMODULES))
-
-ifneq ("$(wildcard $(SUBTARGETS))","")
-
-SERVICE_NAME := {{name}}
-SERVICE_IMAGE_TAG ?= $(shell git rev-parse HEAD)
-SERVICE_IMAGE_PUSH_TAG ?= $(SERVICE_IMAGE_TAG)
-
-UTILS_PATH := build_utils
-TEMPLATES_PATH := .
-
-# Build image tag to be used
-BUILD_IMAGE_NAME := build-erlang
-BUILD_IMAGE_TAG := $(BUILD_IMAGE_TAG) # Replace with the current version (tag) for build image!
-
-CALL_W_CONTAINER := $(CALL_ANYWHERE)
-
--include $(UTILS_PATH)/make_lib/utils_container.mk
--include $(UTILS_PATH)/make_lib/utils_image.mk
-
-endif
-
-.PHONY: $(CALL_ANYWHERE) get_deps $(CALL_W_CONTAINER)
+DOCKER ?= docker
+REBAR ?= rebar3
+TEST_CONTAINER_NAME ?= testrunner
 
 all: compile
 
-get_deps:
-	$(REBAR) get-deps
+# Development images
+
+DEV_IMAGE_TAG = $(TEST_CONTAINER_NAME)-dev
+DEV_IMAGE_ID = $(file < .image.dev)
+
+.PHONY: dev-image clean-dev-image wc-shell test
+
+dev-image: .image.dev
+
+.image.dev: Dockerfile.dev .env
+	$(DOCKER) build . -f Dockerfile.dev --tag $(DEV_IMAGE_TAG) --build-arg OTP_VERSION=$(OTP_VERSION)
+	$(DOCKER) image ls -q -f "reference=$(DEV_IMAGE_ID)" | head -n1 > $@
+
+clean-dev-image:
+ifneq ($(DEV_IMAGE_ID),)
+	$(DOCKER) image rm -f $(DEV_IMAGE_TAG)
+	rm .image.dev
+endif
+
+DOCKER_WC_OPTIONS := -v $(PWD):$(PWD) --workdir $(PWD)
+DOCKER_WC_EXTRA_OPTIONS ?= --rm
+DOCKER_RUN = $(DOCKER) run -t $(DOCKER_WC_OPTIONS) $(DOCKER_WC_EXTRA_OPTIONS)
+
+# Utility tasks
+
+wc-shell: dev-image
+	$(DOCKER_RUN) --interactive --tty $(DEV_IMAGE_TAG)
+
+wc-%: dev-image
+	$(DOCKER_RUN) $(DEV_IMAGE_TAG) make $*
+
+# Rebar tasks
+
+rebar-shell:
+	$(REBAR) shell
 
 compile:
 	$(REBAR) compile
 
-shell: submodules
-	$(REBAR) shell
+xref:
+	$(REBAR) xref
 
 lint:
-    # TODO: Fix to this as soon as prometheus_cowboy has plugins fixed
-    # $(REBAR) lint
-	elvis rock -V
+	$(REBAR) lint
 
-check_format:
+check-format:
 	$(REBAR) fmt -c
+
+dialyze:
+	$(REBAR) as test dialyzer
+
+release:
+	$(REBAR) as prod release
+
+eunit:
+	$(REBAR) eunit --cover
+
+common-test:
+	$(REBAR) ct --cover
+
+cover:
+	$(REBAR) covertool generate
 
 format:
 	$(REBAR) fmt -w
 
-test:
-	$(REBAR) do eunit, proper
-
-xref:
-	$(REBAR) xref
-
 clean:
 	$(REBAR) clean
 
-distclean:
-	$(REBAR) clean -a
-	rm -rfv _build
+distclean: clean-build-image
+	rm -rf _build
 
-dialyze:
-	$(REBAR) as test dialyzer
+test: eunit common-test
+
+cover-report:
+	$(REBAR) cover

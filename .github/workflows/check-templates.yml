@@ -1,0 +1,81 @@
+name: Check templates
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'epic/**'
+  pull_request:
+    branches: [ '**' ]
+
+env:
+  # Enable buildkit extensions in docker-compose
+  COMPOSE_DOCKER_CLI_BUILD: true
+  DOCKER_BUILDKIT: true
+
+jobs:
+  check-library-template:
+    name: Client Template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Add templates to rebar
+        run: |
+          mkdir -p ~/.config/rebar3/templates
+          cp -rv ./* ~/.config/rebar3/templates
+
+      - name: Generate library
+        run: |
+          rebar3 new erlang-library name=erlang_library
+
+      - name: Compile template output
+        working-directory: erlang_library
+        run: make wc-compile
+
+      - name: Check template output
+        working-directory: erlang_library
+        run: |
+          make wc-check-format
+          make wc-lint
+          make wc-xref
+          make wc-dialyze
+
+      - name: Test template output
+        working-directory: erlang_library
+        run: |
+          make wc-test
+
+  check-service-template:
+    name: Service Template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Add templates to rebar
+        run: |
+          mkdir -p ~/.config/rebar3/templates
+          cp -rv ./* ~/.config/rebar3/templates
+
+      - name: Generate service
+        run: |
+          rebar3 new erlang-service name=erlang_service
+
+      - name: Compile template output
+        working-directory: erlang_service
+        run: make wc-compile
+
+      - name: Check template output
+        working-directory: erlang_service
+        run: |
+          make wc-check-format
+          make wc-lint
+          make wc-xref
+          make wc-dialyze
+
+      - name: Test template output
+        working-directory: erlang_service
+        run: |
+          make wdeps-test

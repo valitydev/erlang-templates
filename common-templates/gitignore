@@ -8,6 +8,6 @@
 erl_crash.dump
 log
 
-# Files generated from scripts
-Dockerfile
-docker-compose.yml
+# make stuff
+/.image.*
+Makefile.env

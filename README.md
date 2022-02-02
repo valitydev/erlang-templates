@@ -1,5 +1,4 @@
-# Erlang service template [![Build Status](http://ci.rbkmoney.com/buildStatus/icon?job=rbkmoney_private/erlang-service-template/master)](http://ci.rbkmoney.com/job/rbkmoney_private/view/Erlang/job/erlang-service-template/job/master/)
-
+# Erlang service template
 
 Шаблон проекта для быстрого старта написания сервиса на Erlang, в комплекте:
 
@@ -17,28 +16,20 @@
 ```bash
 $ mkdir -p ~/.config/rebar3/templates
 $ cd $_
-$ git clone https://github.com/rbkmoney/erlang-templates.git .
+$ git clone https://github.com/valitydev/erlang-templates.git .
 $ cd ~
 $ rebar3 new erlang-service name=snakeoil
 $ cd snakeoil
-$ git init
-$ git submodule add -b master https://github.com/rbkmoney/build_utils.git build_utils
-$ git submodule init
-...
-+ установить значения переменных BASE_IMAGE_TAG и BUILD_IMAGE_TAG в Makefile
 ```
 
 > _Хозяйке на заметку_. Для того, чтобы это всё заработало, необходимы следующие компоненты:
 >
 >  * GNU Make
 >  * [rebar3](http://www.rebar3.org/)
->  * [elvis](https://github.com/inaka/elvis/releases)
 >
-> К счастью, теперь все это доступно в build образе, работать с которым легко и удобно через `make`:
->  * wc_<target> - запустить в build контейнере
->  * wdeps_<target> - запустить в build контейнере вместе с необходимыми зависимыми сервисами, используя `docker-compose`.
->  * build_image - построить образ микросервиса
->  * push_image - отправить образ микросервиса в docker registry
+> К счастью, теперь все это доступно в dev образе, работать с которым легко и удобно через `make`:
+>  * wc-<target> - запустить в dev контейнере
+>  * wdeps-<target> - запустить в dev контейнере вместе с необходимыми зависимыми сервисами, используя `docker-compose`.
 
 Чтобы получить описание и поддерживаемые переменные:
 

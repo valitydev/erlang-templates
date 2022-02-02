@@ -4,7 +4,10 @@
 -export([all/0]).
 -export([init_per_suite/1]).
 -export([end_per_suite/1]).
--export([health_check_works_test/1, prometheus_works_test/1]).
+-export([
+    health_check_works_test/1
+    % prometheus_works_test/1
+]).
 
 -type test_name() :: atom().
 -type config() :: [{atom(), _}].
@@ -15,8 +18,8 @@
 -spec all() -> [test_name()].
 all() ->
     [
-        health_check_works_test,
-        prometheus_works_test
+        health_check_works_test
+        % prometheus_works_test
     ].
 
 %%
@@ -43,14 +46,18 @@ health_check_works_test(_) ->
     "application/json" = proplists:get_value("content-type", Headers),
     true = nomatch /= string:find(Body, "\"service\":\"{{name}}\"").
 
--spec prometheus_works_test(config()) -> any().
-prometheus_works_test(_) ->
-    {ok, {Status, Headers, Body}} = httpc:request("http://localhost:8080/metrics"),
-    {_, 200, "OK"} = Status,
-    true =
-        nomatch /=
-            string:prefix(
-                proplists:get_value("content-type", Headers),
-                "text/plain"
-            ),
-    true = nomatch /= string:find(Body, "erlang_vm_memory_bytes_total{kind=\"system\"}").
+% Because of a dependency conflict, prometheus libs are only included in production build for now
+% https://github.com/project-fifo/rebar3_lint/issues/42
+% https://github.com/valitydev/hellgate/pull/2/commits/884724c1799703cee4d1033850fe32c17f986d9e
+
+% -spec prometheus_works_test(config()) -> any().
+% prometheus_works_test(_) ->
+%     {ok, {Status, Headers, Body}} = httpc:request("http://localhost:8080/metrics"),
+%     {_, 200, "OK"} = Status,
+%     true =
+%         nomatch /=
+%             string:prefix(
+%                 proplists:get_value("content-type", Headers),
+%                 "text/plain"
+%             ),
+%     true = nomatch /= string:find(Body, "erlang_vm_memory_bytes_total{kind=\"system\"}").

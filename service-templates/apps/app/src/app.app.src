@@ -10,6 +10,9 @@
         genlib,
         scoper,
 
+        %% Protocols
+        {{name}}_proto,
+
         %% RPC
         woody,
         woody_user_identity,
@@ -18,9 +21,7 @@
         cowboy_draining_server,
 
         %% Monitoring
-        erl_health,
-        prometheus,
-        prometheus_cowboy
+        erl_health
     ]},
     {env, []},
     {maintainers, [
