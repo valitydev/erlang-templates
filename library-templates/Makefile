@@ -8,7 +8,7 @@
 # component versions, both when building a development image and when running
 # CI workflows on GH Actions. This ensures that tasks run with `wc-` prefix
 # (like `wc-dialyze`) are reproducible between local machine and CI runners.
--include .env
+DOTENV := $(shell grep -v '^\#' .env)
 
 DOCKER ?= docker
 REBAR ?= rebar3
