@@ -3,12 +3,11 @@ ARG OTP_VERSION
 # Build the release
 FROM docker.io/library/erlang:${OTP_VERSION} AS builder
 
-ARG BUILDARCH
-
 # Install thrift compiler
 ARG THRIFT_VERSION
 
-RUN wget -q -O- "https://github.com/valitydev/thrift/releases/download/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}-linux-${BUILDARCH}.tar.gz" \
+ARG TARGETARCH
+RUN wget -q -O- "https://github.com/valitydev/thrift/releases/download/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}-linux-${TARGETARCH}.tar.gz" \
     | tar -xvz -C /usr/local/bin/
 
 # Copy sources
