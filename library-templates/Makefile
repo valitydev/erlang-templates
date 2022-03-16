@@ -27,7 +27,7 @@ dev-image: .image.dev
 
 .image.dev: Dockerfile.dev .env
 	$(DOCKER) build . -f Dockerfile.dev --tag $(DEV_IMAGE_TAG) $(DOTENV:%=--build-arg %)
-	$(DOCKER) image ls -q -f "reference=$(DEV_IMAGE_ID)" | head -n1 > $@
+	$(DOCKER) image ls -q -f "reference=$(DEV_IMAGE_TAG)" | head -n1 > $@
 
 clean-dev-image:
 ifneq ($(DEV_IMAGE_ID),)
