@@ -2,10 +2,10 @@ ARG OTP_VERSION
 
 # Build the release
 FROM docker.io/library/erlang:${OTP_VERSION} AS builder
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install thrift compiler
 ARG THRIFT_VERSION
-
 ARG TARGETARCH
 RUN wget -q -O- "https://github.com/valitydev/thrift/releases/download/${THRIFT_VERSION}/thrift-${THRIFT_VERSION}-linux-${TARGETARCH}.tar.gz" \
     | tar -xvz -C /usr/local/bin/
@@ -16,8 +16,8 @@ COPY . /build/
 
 # Build the release
 WORKDIR /build
-RUN rebar3 compile
-RUN rebar3 as prod release
+RUN rebar3 compile && \
+    rebar3 as prod release
 
 # Make a runner image
 FROM docker.io/library/erlang:${OTP_VERSION}-slim
