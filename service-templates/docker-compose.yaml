@@ -1,6 +1,5 @@
 version: '3'
 services:
-  
   testrunner:
     image: $DEV_IMAGE_TAG
     build:
