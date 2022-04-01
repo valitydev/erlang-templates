@@ -28,15 +28,12 @@ ARG SERVICE_NAME
 ENV CHARSET=UTF-8
 ENV LANG=C.UTF-8
 
-# Expose SERVICE_NAME as env so CMD expands properly on start
-ENV SERVICE_NAME=${SERVICE_NAME}
-
 # Set runtime
 WORKDIR /opt/${SERVICE_NAME}
 
 COPY --from=builder /build/_build/prod/rel/${SERVICE_NAME} /opt/${SERVICE_NAME}
 
 ENTRYPOINT []
-CMD /opt/${SERVICE_NAME}/bin/${SERVICE_NAME} foreground
+CMD ["/opt/{{name}}/bin/{{name}}", "foreground"]
 
 EXPOSE 8022
