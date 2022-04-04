@@ -7,4 +7,4 @@ ENV CHARSET=UTF-8
 ENV LANG=C.UTF-8
 
 # Set runtime
-CMD /bin/bash
+CMD ["/bin/bash"]
